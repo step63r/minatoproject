@@ -1,0 +1,3 @@
+[submodule "redmine/redmine-theme-gitmike"]
+	path = redmine/redmine-theme-gitmike
+	url = https://github.com/makotokw/redmine-theme-gitmike
