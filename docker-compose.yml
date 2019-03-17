@@ -210,9 +210,13 @@ services:
     networks:
       app_net:
         ipv4_address: 192.168.56.10
+      slave-net:
+        ipv4_address: 192.168.60.50
 
 networks:
   ssl_proxy:
+    external: true
+  slave-net:
     external: true
   app_net:
     driver: bridge
