@@ -40,6 +40,15 @@ The ''docker-compose.yml'' runs applications such as
 
 Clients are enable to resolve name of the server you're going to build at first.
 
+### Configure Networks
+
+Add following two docker networks.
+
+```
+$ docker network create ssl_proxy
+$ docker network create --subnet=192.168.60.0/24 slave-net
+```
+
 ### Configure Containers
 
 Fork and clone this repository.
