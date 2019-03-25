@@ -73,6 +73,7 @@ services:
   gitlab:
     image: gitlab/gitlab-ce
     container_name: GitLab
+    hostname: ${GITLAB_HOSTNAME}
     privileged: true
     restart: always
     environment:
@@ -94,6 +95,7 @@ services:
   jupyterhub:
     build: ./jupyterhub/
     container_name: JupyterHub
+    hostname: ${JUPYTERHUB_HOSTNAME}
     privileged: true
     restart: always
     environment:
@@ -117,6 +119,7 @@ services:
   redmine:
     image: redmine
     container_name: Redmine
+    hostname: ${REDMINE_HOSTNAME}
     privileged: true
     restart: always
     environment:
@@ -156,6 +159,7 @@ services:
   wordpress:
     image: wordpress
     container_name: WordPress
+    hostname: ${WORDPRESS_HOSTNAME}
     privileged: true
     restart: always
     environment:
@@ -195,6 +199,7 @@ services:
   jenkins:
     image: jenkinsci/blueocean
     container_name: Jenkins
+    hostname: ${JENKINS_HOSTNAME}
 #    privileged: true
     restart: always
     environment:
