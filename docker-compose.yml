@@ -82,12 +82,14 @@ services:
       - LETSENCRYPT_HOST=${GITLAB_HOSTNAME}
       - LETSENCRYPT_EMAIL=${ADMIN_ADDRESS}
     volumes:
-      - '/srv/docker/gitlab/config:/cetc/gitlab:z'
+      - '/srv/docker/gitlab/config:/etc/gitlab:z'
       - '/srv/docker/gitlab/logs:/var/log/gitlab:z'
       - '/srv/docker/gitlab/data:/var/opt/gitlab:z'
     extra_hosts:
       - 'Jenkins:192.168.56.10'
       - '${JENKINS_HOSTNAME}:192.168.56.10'
+    ports:
+      - "20022:22"
     networks:
       app_net:
         ipv4_address: 192.168.56.2
@@ -115,6 +117,8 @@ services:
     networks:
       app_net:
         ipv4_address: 192.168.56.3
+      test_db_net:
+        ipv4_address: 192.168.70.10
 
   redmine:
     image: redmine
@@ -230,3 +234,5 @@ networks:
       config:
         - subnet: 192.168.56.0/24
           gateway: 192.168.56.1
+  test_db_net:
+    external: true
