@@ -27,12 +27,8 @@ The ''docker-compose.yml'' runs applications such as
 - [jwilder/nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy/)
 - [jrcs/letsencrypt-nginx-proxy-companion](https://hub.docker.com/r/jrcs/letsencrypt-nginx-proxy-companion/)
 - [gitlab/gitlab-ce](https://hub.docker.com/r/gitlab/gitlab-ce/)
-- [jupyterhub/jupyterhub](https://hub.docker.com/r/jupyterhub/jupyterhub/)
-- [redmine](https://hub.docker.com/_/redmine/)
-- [postgres](https://hub.docker.com/_/postgres/)
 - [wordpress](https://hub.docker.com/_/wordpress/)
 - [mysql](https://hub.docker.com/_/mysql/)
-- [jenkinsci/blueocean](https://hub.docker.com/r/jenkinsci/blueocean/)
 
 ## Usage
 
@@ -46,7 +42,6 @@ Add following two docker networks.
 
 ```
 $ docker network create ssl_proxy
-$ docker network create --subnet=192.168.60.0/24 slave-net
 ```
 
 ### Configure Containers
@@ -62,22 +57,14 @@ Create ``.env`` file in cloned directory, and write below.
 | VAR                   | DESCRIPTION                            |
 |:--------------------- |:-------------------------------------- |
 | GITLAB_HOSTNAME       | Domain name of GitLab                  |
-| JUPYTERHUB_HOSTNAME   | Domain name of JupyterHub              |
 | OAUTH_CLIENT_ID       | Application ID for OAuth of JupyterHub |
 | OAUTH_CLIENT_SECRET   | Secret for OAuth of JupyterHub         |
 | OAUTH_CALLBACK_URL    | Callback URL of JupyterHub OAuth       |
-| REDMINE_HOSTNAME      | Domain name of Redmine                 |
-| REDMINE_DB_POSTGRES   | Set ``postgres``                       |
-| REDMINE_DB_USERNAME   | User name of Redmine DB                |
-| REDMINE_DB_PASSWORD   | Password of Redmine DB                 |
 | WORDPRESS_HOSTNAME    | Domain name of WordPress               |
 | WORDPRESS_DB_MYSQL    | Set ``wordpress``                      |
 | WORDPRESS_DB_USERNAME | User name of WordPress DB              |
 | WORDPRESS_DB_PASSWORD | Password of WordPress DB               |
-| JENKINS_HOSTMANE      | Domain name of Jenkins                 |
 | ADMIN_ADDRESS         | Your e-mail address                    |
-
-``OAUTH_CALLBACK_URL`` is ``http://[Domain name of JupyterHub]/hub/oauth_callback`` .
 
 In this configuration, you can run JupyterHub and use OAuth with GitLab also built by this configuration. In short, you can from authentication to deproy at all by on-premise.
 
@@ -96,10 +83,7 @@ $ docker-compose ps
       Name                     Command                  State
 ------------------------------------------------------------------
 GitLab              /assets/wrapper                  Up (healthy) 
-JupyterHub          jupyterhub                       Up
 Proxy               /app/docker-entrypoint.sh  ...   Up
-Redmine             /docker-entrypoint.sh rail ...   Up
-RedmineDB           docker-entrypoint.sh postgres    Up
 letsencrypt-nginx   /bin/bash /app/entrypoint. ...   Up
 WordPress           docker-entrypoint.sh apach ...   Up
 WordPressDB         docker-entrypoint.sh mysqld      Up

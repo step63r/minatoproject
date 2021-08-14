@@ -23,7 +23,7 @@ services:
       ssl_proxy:
 
   letsencrypt-nginx:
-    image: jrcs/letsencrypt-nginx-proxy-companion
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.12.1
     container_name: letsencrypt-nginx
     privileged: true
     restart: always
@@ -38,40 +38,8 @@ services:
       app_net:
         ipv4_address: 192.168.56.101
 
-#  open-ldap:
-#    image: osixia/openldap
-#    container_name: OpenLDAP
-#    restart: always
-#    environment:
-#      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
-#    Volumes:
-#      - '/srv/docker/open-ldap/var/lib/ldap:/var/lib/ldap:z'
-#      - '/srv/docker/open-ldap/etc/ldap/slapd.d:/etc/ldap/slapd.d:z'
-#    networks:
-#      app_net:
-#        ipv4_address: 192.168.56.102
-
-#  ldap-admin:
-#    image: osixia/phpldapadmin
-#    container_name: phpLDAPadmin
-#    restart: always
-#    environment:
-#      - VIRTUAL_HOST=${LDAPADMIN_HOSTNAME}
-#      - VIRTUAL_PORT=80
-#      - LETSENCRYPT_HOST=${LDAPADMIN_HOSTNAME}
-#      - LETSENCRYPT_EMAIL=${ADMIN_ADDRESS}
-#      - PHPLDAPADMIN_LDAP_HOSTS=${LDAPADMIN_HOSTNAME}
-#      - PHPLDAPADMIN_HTTPS=false
-#    volumes:
-#      - '/srv/docker/ldap-admin/config:/container/service/phpldapadmin/assets/config:z'
-#    links:
-#      - open-ldap
-#    networks:
-#      app_net:
-#        ipv4_address: 192.168.56.103
-
   gitlab:
-    image: gitlab/gitlab-ce:12.7.6-ce.0
+    image: gitlab/gitlab-ce:14.1.2-ce.0
     container_name: GitLab
     hostname: ${GITLAB_HOSTNAME}
     privileged: true
@@ -94,74 +62,8 @@ services:
       app_net:
         ipv4_address: 192.168.56.2
 
-#  jupyterhub:
-#    build: ./jupyterhub/
-#    container_name: JupyterHub
-#    hostname: ${JUPYTERHUB_HOSTNAME}
-#    privileged: true
-#    restart: always
-#    environment:
-#      - VIRTUAL_HOST=${JUPYTERHUB_HOSTNAME}
-#      - VIRTUAL_PORT=8000
-#      - LETSENCRYPT_HOST=${JUPYTERHUB_HOSTNAME}
-#      - LETSENCRYPT_EMAIL=${ADMIN_ADDRESS}
-#      - GITLAB_HOST=http://${GITLAB_HOSTNAME}/
-#      - OAUTH_CLIENT_ID=${OAUTH_CLIENT_ID}
-#      - OAUTH_CLIENT_SECRET=${OAUTH_CLIENT_SECRET}
-#      - OAUTH_CALLBACK_URL=${OAUTH_CALLBACK_URL}
-#    volumes:
-#      - '/srv/docker/jupyter/data:/home:z'
-#    extra_hosts:
-#      - 'GitLab:192.168.56.2'
-#      - '${GITLAB_HOSTNAME}:192.168.56.2'
-#    networks:
-#      app_net:
-#        ipv4_address: 192.168.56.3
-#      test_db_net:
-#        ipv4_address: 192.168.70.10
-
-#  redmine:
-#    image: redmine
-#    container_name: Redmine
-#    hostname: ${REDMINE_HOSTNAME}
-#    privileged: true
-#    restart: always
-#    environment:
-#      - REDMINE_DB_POSTGRES=${REDMINE_DB_POSTGRES}
-#      - REDMINE_DB_USERNAME=${REDMINE_DB_USERNAME}
-#      - REDMINE_DB_PASSWORD=${REDMINE_DB_PASSWORD}
-#      - VIRTUAL_HOST=${REDMINE_HOSTNAME}
-#      - VIRTUAL_PORT=3000
-#      - LETSENCRYPT_HOST=${REDMINE_HOSTNAME}
-#      - LETSENCRYPT_EMAIL=${ADMIN_ADDRESS}
-#    volumes:
-#      - '/srv/docker/redmine/files:/usr/src/redmine/files:z'
-#      - '/srv/docker/redmine/plugins:/usr/src/redmine/plugins:z'
-#      - '/srv/docker/redmine/vplugins:/usr/src/redmine/vendor/plugins:z'
-#      - '/srv/docker/redmine/themes:/usr/src/redmine/public/themes:z'
-#      - './redmine/redmine-theme-gitmike:/usr/src/redmine/public/themes/gitmike'
-#    links:
-#      - redminepg:postgres
-#      - open-ldap:ldap
-#    networks:
-#      app_net:
-#        ipv4_address: 192.168.56.4
-
-#  redminepg:
-#    image: postgres:10.7
-#    container_name: RedmineDB
-
-#    environment:
-#      - POSTGRES_PASSWORD=${REDMINE_DB_PASSWORD}
-#      - POSTGRES_USER=${REDMINE_DB_USERNAME}
-#    volumes:
-#      - '/srv/docker/redminepg/data:/var/lib/postgresql/data:z'
-#    networks:
-#      app_net:
-#        ipv4_address: 192.168.56.5
-
   wordpress:
-    image: wordpress
+    image: wordpress:5.7.0-apache
     container_name: WordPress
     hostname: ${WORDPRESS_HOSTNAME}
     privileged: true
@@ -195,32 +97,9 @@ services:
       - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
     volumes:
       - '/srv/docker/wpmysql:/var/lib/mysql:z'
-#      - './wpmysql/my.cnf:/etc/mysql/my.cnf'
     networks:
       app_net:
         ipv4_address: 192.168.56.7
-
-#  jenkins:
-#    image: jenkinsci/blueocean
-#    container_name: Jenkins
-#    hostname: ${JENKINS_HOSTNAME}
-#    privileged: true
-#    restart: always
-#    environment:
-#      - VIRTUAL_HOST=${JENKINS_HOSTNAME}
-#      - VIRTUAL_PORT=8080
-#      - LETSENCRYPT_HOST=${JENKINS_HOSTNAME}
-#      - LETSENCRYPT_EMAIL=${ADMIN_ADDRESS}
-#    volumes:
-#      - '/srv/docker/jenkins:/var/jenkins_home:z'
-#    extra_hosts:
-#      - 'GitLab:192.168.56.2'
-#      - '${GITLAB_HOSTNAME}:192.168.56.2'
-#    networks:
-#      app_net:
-#        ipv4_address: 192.168.56.10
-#      slave-net:
-#        ipv4_address: 192.168.60.50
 
 networks:
   ssl_proxy:
