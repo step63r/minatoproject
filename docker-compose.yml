@@ -39,7 +39,7 @@ services:
         ipv4_address: 192.168.56.101
 
   gitlab:
-    image: gitlab/gitlab-ce:14.5.2-ce.0
+    image: gitlab/gitlab-ce:15.0.2-ce.0
     container_name: GitLab
     hostname: ${GITLAB_HOSTNAME}
     privileged: true
